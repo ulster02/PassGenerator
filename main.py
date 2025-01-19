@@ -1,18 +1,19 @@
-from pymongo import MongoClient
-from pytz import all_timezones
-
+import pytz
+import os
 import Password
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from datetime import datetime
-import pytz
+from dotenv import load_dotenv
 
+load_dotenv()
+MONGODB_URI = os.getenv("MONGODB_URI")
 x=0
-uri = "mongodb+srv://users:hb4Py8YKK8HkuuAj@cluster62.r9dsn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster62"
 # Create a new client and connect to the server
-client = MongoClient(uri, server_api=ServerApi('1'))
+client = MongoClient(MONGODB_URI, server_api=ServerApi('1'))
 mydb = client["passwords"]
 mycol = mydb["myPasswords"]
+
 
 while x == 0 :
     #random_character = random.choice(alfa)
@@ -26,6 +27,7 @@ while x == 0 :
     p1.password = p1.GenPassword()
 
     save_pass = {"dateCreation": p1.dateCreation, "namePass" : p1.namePass, "Password": p1.password}
+    print(datetime.now(pytz.timezone('America/Costa_Rica')))
     #Store Password attributes in Mongodb
     returnMongodbAction = mycol.insert_one(save_pass)
     print(returnMongodbAction)
