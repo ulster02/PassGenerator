@@ -16,3 +16,4 @@ class Password:
             random_Password = random.choice(alfa) + random_Password
 
         return random_Password
+
